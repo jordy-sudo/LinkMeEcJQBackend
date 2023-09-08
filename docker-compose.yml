@@ -1,0 +1,27 @@
+version: '3'
+services:
+  mongodb:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: jordyQ
+      MONGO_INITDB_ROOT_PASSWORD: linkme
+    ports:
+      - "27017:27017"
+    networks:
+      - link_ec
+
+  link_ec-dotnet-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      ASPNETCORE_URLS: http://*:80
+    ports:
+      - "1444:80"
+    depends_on:
+      - mongodb
+    networks:
+      - link_ec
+
+networks:
+  link_ec:
